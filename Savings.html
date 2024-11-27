@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #517891; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #57B9FF; 
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            margin: 20px;
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #57B9FF; 
+            margin-bottom: 10px;
+            font-family: 'Lobster', cursive; 
+        }
+        input[type="number"] {
+            padding: 12px;
+            width: calc(100% - 30px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus {
+            border-color: #57B9FF; 
+            outline: none;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            background-color: #57B9FF; 
+            color: white;
+            margin-bottom: 10px; 
+        }
+        button:hover {
+            background-color: #46A1D8; 
+        }
+        .progress-container {
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            height: 20px;
+            background: #28a745; 
+            width: 0;
+            border-radius: 5px;
+        }
+        #progressText {
+            color: #57B9FF; 
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Savings Tracker</h1>
+</header>
+
+<div class="container">
+    <h2>Track Your Savings</h2>
+    <input type="number" id="goalAmount" placeholder="Set Savings Goal" min="1">
+    <input type="number" id="savedAmount" placeholder="Enter Amount Saved" min="0">
+    <button onclick="addSavings()">Add Savings</button>
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div id="progressText">0% of goal reached</div>
+    <br>
+    <button onclick="resetSavings()">Reset Savings</button> 
+    <button onclick="goBack()">Back</button>
+</div>
+
+<script>
+    let savingsGoal = 0;
+    let totalSaved = 0;
+
+   
+    window.onload = function() {
+        const savedGoal = localStorage.getItem('savingsGoal');
+        const savedTotal = localStorage.getItem('totalSaved');
+
+        if (savedGoal) {
+            savingsGoal = parseFloat(savedGoal);
+            document.getElementById('goalAmount').value = savingsGoal;
+        }
+        if (savedTotal) {
+            totalSaved = parseFloat(savedTotal);
+            updateProgressBar(); 
+        }
+    };
+
+    function addSavings() {
+        const goalInput = document.getElementById('goalAmount');
+        const savedInput = document.getElementById('savedAmount');
+
+        if (goalInput.value) {
+            savingsGoal = parseFloat(goalInput.value);
+            localStorage.setItem('savingsGoal', savingsGoal); 
+        }
+
+        if (savedInput.value) {
+            totalSaved += parseFloat(savedInput.value);
+            savedInput.value = ''; 
+            localStorage.setItem('totalSaved', totalSaved); 
+            
+            updateProgressBar();
+        }
+    }
+
+    function updateProgressBar() {
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        const percentage = (totalSaved / savingsGoal) * 100;
+        progressBar.style.width = percentage + '%';
+        progressText.textContent = Math.max(0, Math.min(percentage, 100)).toFixed(0) + '% of goal reached';
+    }
+
+    function resetSavings() {
+        
+        localStorage.removeItem('savingsGoal');
+        localStorage.removeItem('totalSaved');
+        savingsGoal = 0;
+        totalSaved = 0;
+        
+       
+        document.getElementById('goalAmount').value = '';
+        document.getElementById('savedAmount').value = '';
+        updateProgressBar(); 
+    }
+
+    function goBack() {
+        window.history.back(); 
+    }
+</script>
+
+</body>
+</html>

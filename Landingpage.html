@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MyEventPlanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffcccb; 
+            text-align: center;
+        }
+        .spinner {
+            border: 8px solid #f3f3f3; 
+            border-top: 8px solid #d5006d; 
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            color: #d5006d; 
+            display: none; 
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #d5006d; 
+            color: white;
+            margin-top: 20px;
+            display: none; 
+        }
+        button:hover {
+            background-color: #b0004d; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="spinner"></div>
+<h1>Welcome to MyEventPlanner!</h1>
+<button id="navigateButton">Gets Started</button>
+
+<script>
+    
+    window.onload = function() {
+        setTimeout(() => {
+            document.querySelector('.spinner').style.display = 'none'; 
+            document.querySelector('h1').style.display = 'block'; 
+            document.getElementById('navigateButton').style.display = 'block'; 
+        }, 2000); 
+    };
+
+    document.getElementById('navigateButton').onclick = function() {
+        window.location.href = 'index.html'; 
+    };
+</script>
+
+</body>
+</html>
